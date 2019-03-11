@@ -1,0 +1,20 @@
+package com.testspace.test_smart_sec_school_proposer;
+
+import java.lang.Number;
+
+rule "LoadSchoolData"
+	dialect "mvel"
+	ruleflow-group "smartsecscoolruleflowgoup"
+	when
+		$stuRecord : Student( )
+	then
+		$stuRecord.populateSchoolCollection(  );
+		for(School $schoolRec: $stuRecord.getSchoolCollection().getSchoolList()) {
+		System.out.println($schoolRec.getSchoolName());
+		System.out.println($schoolRec.getSchoolSelected());
+		School schoolObj = new School();
+		schoolObj.setSchoolName( $schoolRec.getSchoolName() );
+		schoolObj.setSchoolSelected( false );
+		insert( schoolObj );
+		}
+end
